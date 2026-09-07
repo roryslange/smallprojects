@@ -1,5 +1,5 @@
 # smallprojects
 ### ideas
-[ ] deflate to gzip
-[ ] tar (tarball)
+- [ ] deflate to gzip
+- [ ] tar (tarball)
 
