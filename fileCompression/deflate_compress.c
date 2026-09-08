@@ -117,6 +117,7 @@ u32 bs_peek(bitstream *bs, u8 nbits) {
 * first im going to copy from video to see if that works
 */
 
+// not sure about what these things do or what is happening to them
 // bl_count:    how frequently a specific character appears
 // code:        code calculated for next node
 // next_code:   store code for next code
