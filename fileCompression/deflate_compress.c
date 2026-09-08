@@ -40,7 +40,7 @@ void deflate(string8 input, string8 out);
 bitstream bs_init(string8 backing);
 u32 bs_peek(bitstream *bs, u8 nbits);
 u32 bs_take(bitstream *bs, u8 nbits);
-void build_huff_tree(static_huffman_node *node, u32 node_count)
+void build_huff_tree(static_huffman_node *node, u32 node_count);
 
 u32 bit_masks[] = {
     0b0000000000000000,
@@ -64,6 +64,9 @@ u32 bit_masks[] = {
 
 int main() {
     string8 t = read_file("fopen.txt");
+    for (u64 i = 0; i < t.size; i++) {
+        printf("%c", (char)t.str[i]);
+    }
 
     return 0;
 }
@@ -88,7 +91,7 @@ bitstream bs_init(string8 backing) {
     return (bitstream){
         .backing = backing,
         .bit_pos = 0,
-        .bit_size = backing.size * 8;
+        .bit_size = backing.size * 8
     };
 }
 
