@@ -40,7 +40,8 @@ void deflate(string8 input, string8 out);
 bitstream bs_init(string8 backing);
 u32 bs_peek(bitstream *bs, u8 nbits);
 u32 bs_take(bitstream *bs, u8 nbits);
-void build_huff_tree(static_huffman_node *node, u32 node_count);
+void build_huff_tree(static_huffman_node *nodes, u32 node_count);
+void print_string(string8 input);
 
 u32 bit_masks[] = {
     0b0000000000000000,
@@ -64,10 +65,7 @@ u32 bit_masks[] = {
 
 int main() {
     string8 t = read_file("fopen.txt");
-    for (u64 i = 0; i < t.size; i++) {
-        printf("%c", (char)t.str[i]);
-    }
-
+    print_string(t);
     return 0;
 }
 
@@ -84,6 +82,12 @@ string8 read_file(const char* path) {
 
     fclose(f);
     return out;
+}
+
+void print_string(string8 input) {
+    for (u64 i = 0; i < input.size; i++) {
+        printf("%c", (char)t.str[i]);
+    }
 }
 
 
@@ -103,8 +107,41 @@ u32 bs_peek(bitstream *bs, u8 nbits) {
     return bits && bit_masks[nbits];
 }
 
+/**
+* what do i need for the huff tree
+* 1. collect all the unique chars in a file
+* 2. hashmap of all the most common
+* 3. bst for the actual tree impl
+* 4. some way to calculate from my current string and file system
+*
+* first im going to copy from video to see if that works
+*/
 
+// bl_count:    how frequently a specific character appears
+// code:        code calculated for next node
+// next_code:   store code for next code
+// 
+void build_huff_tree(static_huffman_node *nodes, u32 node_count) {
+    u32 bl_count[MAX_BITS] = { 0 };
 
-void deflate(string8 input, string8 out) {
-    
+    for (u32 i = 0; i < node_count; i++) {
+        bl_count[nodes[i].len]++;
+    }
+
+    u32 next_code[MAX_BITS + 1] = { 0 };
+
+    u32 code = 0;
+    bl_count[0] = 0;
+    for (u32 bits = 1; bits <= MAX_BITS; bits++) {
+        code = (code + bl_count[bits-1]) << 1;
+        next_code[bits] = code;
+    }
+
+    for (u32 i = 0; i < node_count; i++) {
+        if (nodes[i].len != 0) {
+            nodes[i].code = next_code[node[i].len]++
+        }
+    }
+
 }
+
