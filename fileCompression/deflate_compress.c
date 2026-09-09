@@ -65,7 +65,7 @@ u32 bit_masks[] = {
 
 int main() {
     string8 t = read_file("fopen.txt");
-    print_string(t);
+    build_huff_tree()
     return 0;
 }
 
@@ -140,7 +140,7 @@ void build_huff_tree(static_huffman_node *nodes, u32 node_count) {
 
     for (u32 i = 0; i < node_count; i++) {
         if (nodes[i].len != 0) {
-            nodes[i].code = next_code[node[i].len]++
+            nodes[i].code = next_code[nodes[i].len]++;
         }
     }
 
